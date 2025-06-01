@@ -55,8 +55,9 @@ app = FastAPI(
     # openapi_url=f"{settings.API_V1_STR}/openapi.json" # Example if you have versioned API
 )
 
-# Import the new router
-from app.api.endpoints import users as users_endpoints_router # New import
+# Import routers
+from app.api.endpoints import users as users_endpoints_router
+from app.api.endpoints import auth as custom_auth_router # New import for custom auth endpoints
 
 
 # --- Include Routers ---
@@ -100,6 +101,13 @@ app.include_router(
     users_endpoints_router.router,
     prefix="/users", # This will make the endpoint available at /users/me/submit-email
     tags=["users-custom"], # A new tag to distinguish from default fastapi-users "users" tag
+)
+
+# Include the new custom auth router
+app.include_router(
+    custom_auth_router.router,
+    prefix="/auth", # This will make the endpoint available at /auth/verify-submitted-email
+    tags=["auth-custom"], # A new tag to distinguish from default fastapi-users "auth" tag
 )
 
 
