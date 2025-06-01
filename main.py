@@ -57,7 +57,8 @@ app = FastAPI(
 
 # Import routers
 from app.api.endpoints import users as users_endpoints_router
-from app.api.endpoints import auth as custom_auth_router # New import for custom auth endpoints
+from app.api.endpoints import auth as custom_auth_router
+from app.api.endpoints import payments as payments_router # New import
 
 
 # --- Include Routers ---
@@ -108,6 +109,13 @@ app.include_router(
     custom_auth_router.router,
     prefix="/auth", # This will make the endpoint available at /auth/verify-submitted-email
     tags=["auth-custom"], # A new tag to distinguish from default fastapi-users "auth" tag
+)
+
+# Include the new payments router
+app.include_router(
+    payments_router.router,
+    prefix="/payments",
+    tags=["payments"],
 )
 
 
